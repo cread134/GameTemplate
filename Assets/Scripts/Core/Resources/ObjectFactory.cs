@@ -11,7 +11,11 @@ namespace Core.Resources
         {
             get
             {
-                return _instance ??= new ObjectFactory();
+                if (_instance is null)
+                {
+                    ConfigureFactory();
+                }
+                return _instance;
             }
             private set
             {
@@ -19,14 +23,21 @@ namespace Core.Resources
             }
         }
         private static ObjectFactory _instance;
-        private static Dictionary<Type, Func<IGameService>> services;
+        private Dictionary<Type, Func<IGameService>> services;
 
         #endregion
+
+        public static void ConfigureFactory()
+        {
+            if (_instance is not null) return;
+            _instance = new ObjectFactory();
+
+            ResourcesConfiguration.RegisterServices();
+        }
 
         public ObjectFactory()
         {
             services = new Dictionary<Type, Func<IGameService>>();
-            ResourcesConfiguration.RegisterServices();
         }
 
         public enum ServiceType
@@ -46,12 +57,18 @@ namespace Core.Resources
             return default;
         }
 
-        public static void RegisterService<TInterface, T>(ServiceType serviceType) where T : TInterface
+        public static void RegisterService<TInterface, T>(ServiceType serviceType) where T : TInterface, IGameService
         {
             Instance.Register<TInterface, T>(serviceType);
         }
-        void Register<TInterface, T>(ServiceType serviceType) where T : TInterface
+        void Register<TInterface, T>(ServiceType serviceType) where T : TInterface, IGameService
         {
+            if(IsMonoBehaviour(typeof(T)) && serviceType == ServiceType.Transient)
+            {
+                Debug.Log($"registering monobehaviour type {serviceType} to transient is not supported");
+                serviceType = ServiceType.Singleton;
+            }
+
             if (services.ContainsKey(typeof(TInterface)))
             {
                 Debug.LogError($"Service of type {typeof(TInterface)} already registered");
@@ -59,6 +76,11 @@ namespace Core.Resources
             }
             services.Add(typeof(TInterface), CreateServiceInstance<T>(serviceType));
             Debug.Log($"Service of type {typeof(TInterface)} registered as {serviceType} : service type {serviceType}");
+        }
+
+        bool IsMonoBehaviour(Type type)
+        {
+            return typeof(MonoBehaviour).IsAssignableFrom(type);
         }
 
         Func<IGameService> CreateServiceInstance<T>(ServiceType serviceType)
@@ -74,20 +96,24 @@ namespace Core.Resources
                         return ServiceCreator(type);
                      };
             }
-            return null;
+            return () => {
+                    Debug.LogError($"Service instance for {typeof(T)} failed");
+                    return null;
+                };
         }
 
         IGameService ServiceCreator(Type type)
         {
             IGameService service = null;
-            if(typeof(MonoBehaviour).IsAssignableFrom(type))
+            if(IsMonoBehaviour(type))
             {
-                GameObject gameObject = new GameObject(type.Name);
+                GameObject gameObject = new GameObject(type.Name);         
                 service = gameObject.AddComponent(type) as IGameService;
                 service.OnServiceRegistering();
             } else
             {
-
+                IGameService instance = Activator.CreateInstance(type) as IGameService;
+                instance.OnServiceRegistering();
             }
             return service;
         }

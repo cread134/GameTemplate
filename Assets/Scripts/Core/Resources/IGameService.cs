@@ -1,6 +1,8 @@
-﻿namespace Core.Resources
+﻿using System;
+
+namespace Core.Resources
 {
-    internal interface IGameService
+    public interface IGameService
     {
         public void OnServiceRegistering();
     }

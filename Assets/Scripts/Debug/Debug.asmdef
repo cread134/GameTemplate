@@ -1,7 +1,8 @@
 {
-    "name": "Player",
+    "name": "Debug",
     "rootNamespace": "",
     "references": [
+        "GUID:8bcf6db54e97d2947930295032e0364f",
         "GUID:32209dec08272be4a8eb3d83c34aa1ac"
     ],
     "includePlatforms": [],
