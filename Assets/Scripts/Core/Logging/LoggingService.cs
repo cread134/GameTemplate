@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace Core.Logging
 {
-    public class LoggingService : ILoggingService, IGameService
+    internal class LoggingService : ILoggingService, IGameService
     {
         public void OnServiceRegistering()
         {

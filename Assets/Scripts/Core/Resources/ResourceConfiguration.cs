@@ -8,7 +8,7 @@ namespace Core.Resources
     {
         public static void RegisterServices()
         {
-            ObjectFactory.RegisterService<IAudioManager, AudioManager>(serviceType: ObjectFactory.ServiceType.Singleton);
+            ObjectFactory.RegisterService<IAudioManager, AudioManager>(serviceType: ObjectFactory.ServiceType.Monobehaviour);
             
             ConfigureLogging();
         }
