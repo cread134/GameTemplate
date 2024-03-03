@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 202814761156279284}
   - component: {fileID: 8607392932378850098}
   - component: {fileID: 3300607519368028857}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Main Camera
   m_TagString: MainCamera
   m_Icon: {fileID: 0}
@@ -146,7 +146,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2447209103602883440}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: PlayerHead
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -180,8 +180,8 @@ GameObject:
   - component: {fileID: 4908719240924768270}
   - component: {fileID: 8044603616360660897}
   - component: {fileID: 7771423709322472179}
-  - component: {fileID: 735291762359506261}
-  m_Layer: 0
+  - component: {fileID: 1279692574496429336}
+  m_Layer: 6
   m_Name: Player
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -231,8 +231,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 39340c2548ca72a4ea63c8143e4ba18d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!136 &735291762359506261
-CapsuleCollider:
+--- !u!143 &1279692574496429336
+CharacterController:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -249,10 +249,13 @@ CapsuleCollider:
   m_IsTrigger: 0
   m_ProvidesContacts: 0
   m_Enabled: 1
-  serializedVersion: 2
-  m_Radius: 0.3
+  serializedVersion: 3
   m_Height: 2
-  m_Direction: 1
+  m_Radius: 0.3
+  m_SlopeLimit: 45
+  m_StepOffset: 0.3
+  m_SkinWidth: 0.08
+  m_MinMoveDistance: 0.001
   m_Center: {x: 0, y: 1, z: 0}
 --- !u!1 &3614596583811935763
 GameObject:
@@ -266,7 +269,7 @@ GameObject:
   - component: {fileID: 4274525343899889567}
   - component: {fileID: 3347017834198172573}
   - component: {fileID: 6798908996614407758}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: InputContainer
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -495,7 +498,8 @@ GameObject:
   m_Component:
   - component: {fileID: 3206776646212507188}
   - component: {fileID: 6746089589570652152}
-  m_Layer: 0
+  - component: {fileID: 8001682309373729910}
+  m_Layer: 6
   m_Name: Behaviours
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -535,6 +539,21 @@ MonoBehaviour:
   maxAngle: 90
   mouseLookConfiguration: {fileID: 11400000, guid: bae068fe5ea94b84db971dfd261a07f5,
     type: 2}
+--- !u!114 &8001682309373729910
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6310269635621186523}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d4681138b82f2a144b1baf714c407fd9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  characterController: {fileID: 1279692574496429336}
+  movementConfiguration: {fileID: 11400000, guid: 67b0cd67eef85604dbc46357b2e32f05,
+    type: 2}
 --- !u!1 &7129964653557477036
 GameObject:
   m_ObjectHideFlags: 0
@@ -544,7 +563,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3448004445040220091}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: MouseLooker
   m_TagString: Untagged
   m_Icon: {fileID: 0}
