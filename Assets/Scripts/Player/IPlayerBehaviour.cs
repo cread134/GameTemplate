@@ -1,9 +1,10 @@
 ﻿using Player.Interaction;
 
-namespace Player
+namespace Player.PlayerResources
 {
-    internal interface IPlayerBehaviour
+    public interface IPlayerBehaviour
     {
-        public void OnBehaviourInit(IPlayerController playerController);
+        public void OnBehaviourInit(IPlayerController playerController, IPlayerResources playerResources);
+        public void StartBehaviour();
     }
 }

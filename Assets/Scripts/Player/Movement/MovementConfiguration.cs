@@ -5,7 +5,7 @@ namespace Player.Movement
     [CreateAssetMenu]
     public class MovementConfiguration : ScriptableObject
     {
-        public LayerMask groundedMask;
+        public float walkHeadHeight = 1.8f;
 
         public float airControlMultipler = 0.3f;
         public float groundedCheckRadius = 0.05f;

@@ -32,7 +32,6 @@ namespace Player.Interaction
 
         public void OnJump(InputAction.CallbackContext context)
         {
-            Debug.Log("Jump");
             if (context.performed)
             {
                 OnJumpDown?.Invoke(this, EventArgs.Empty);

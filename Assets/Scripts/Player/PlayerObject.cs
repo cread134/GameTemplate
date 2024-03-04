@@ -1,6 +1,7 @@
 using Core.Logging;
 using Core.Resources;
 using Player.Interaction;
+using Player.PlayerResources;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,22 +15,36 @@ namespace Player
 
         [Header("Dependencies")]
         [SerializeField] private PlayerController playerController;
+        [SerializeField] private DefaultPlayerResources playerResources; 
 
         private void Awake()
         {
             _loggingService = ObjectFactory.ResolveService<ILoggingService>();
 
+            var behaviours = RecurseChildrenForBehaviours(transform);
+
+            playerResources.ConfigureResources(behaviours);
             playerController.Activate();
-            InitBehaviours();
+
+            InitBehaviours(behaviours);
+            StartBehaviours(behaviours);
         }
 
-        void InitBehaviours()
+        void InitBehaviours(List<IPlayerBehaviour> behaviours)
         {
-            var behaviours = RecurseChildrenForBehaviours(transform);
             foreach (var behaviour in behaviours)
             {
-                Debug.Log($"Initialising player behaviour: {behaviour}");
-                behaviour.OnBehaviourInit(playerController);
+                _loggingService.Log($"Initialising player behaviour: {behaviour}");
+                behaviour.OnBehaviourInit(playerController, playerResources);
+            }
+        }
+
+        void StartBehaviours(List<IPlayerBehaviour> behaviours)
+        {
+            foreach (var behaviour in behaviours)
+            {
+                _loggingService.Log($"Starting player behaviour: {behaviour}");
+                behaviour.StartBehaviour();
             }
         }
 

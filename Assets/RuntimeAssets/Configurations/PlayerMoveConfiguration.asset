@@ -12,9 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 12cba2734b3d93b4d9b3ecdf07d104b9, type: 3}
   m_Name: PlayerMoveConfiguration
   m_EditorClassIdentifier: 
-  groundedMask:
-    serializedVersion: 2
-    m_Bits: 1
+  walkHeadHeight: 1.8
   airControlMultipler: 0.3
   groundedCheckRadius: 0.05
   groundedDistance: 0.01

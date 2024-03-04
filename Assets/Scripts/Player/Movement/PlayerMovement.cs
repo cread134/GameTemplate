@@ -1,4 +1,5 @@
 using Player.Interaction;
+using Player.PlayerResources;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -9,9 +10,11 @@ namespace Player.Movement
 {
     public class PlayerMovement : MonoBehaviour, IPlayerBehaviour
     {
-        [SerializeField] private CharacterController characterController;
+        private CharacterController characterController;
+        private IPlayerCameraAnimator playerCameraAnimator;
         [SerializeField] private MovementConfiguration movementConfiguration;
 
+        private LayerMask groundMask;
 
         private bool initialised = false;
         private bool _useGravity = true;
@@ -32,13 +35,25 @@ namespace Player.Movement
         private float _slopeAngle;
         private float _desiredStepOffset;
 
-        public void OnBehaviourInit(IPlayerController playerController)
+        public void OnBehaviourInit(IPlayerController playerController, IPlayerResources playerResources)
         {
+            //setup resources
+            characterController = playerResources.GetComponentResource<CharacterController>();
+            playerCameraAnimator = playerResources.GetBehaviourResource<PlayerCameraAnimator>();
+            groundMask = playerResources.GetLayerMaskResource("Ground");
+
             playerController.MoveDelta += OnMoveDelta;
             playerController.OnJumpDown += OnJumpDown;
 
+            //process behaviours
             _desiredStepOffset = characterController.stepOffset;
+            Debug.Log("stepoffset");
             initialised = true;
+        }
+
+        public void StartBehaviour()
+        {
+            playerCameraAnimator.ChangePlayerHeadHeight(0.1f, movementConfiguration.walkHeadHeight);
         }
 
         private void Update()
@@ -62,7 +77,7 @@ namespace Player.Movement
         }
 
         public bool Grounded
-            => Physics.CheckSphere(characterController.transform.position + Vector3.up * (movementConfiguration.groundedCheckRadius - movementConfiguration.groundedDistance), movementConfiguration.groundedCheckRadius, movementConfiguration.groundedMask);
+            => Physics.CheckSphere(characterController.transform.position + Vector3.up * (movementConfiguration.groundedCheckRadius - movementConfiguration.groundedDistance), movementConfiguration.groundedCheckRadius, groundMask);
 
         private void GroundCheck()
         {
@@ -79,7 +94,7 @@ namespace Player.Movement
         private void UpdateSlopeValues()
         {
             Vector3 pos = characterController.transform.position + Vector3.up * movementConfiguration.slopeCheckRadius;
-            if (Physics.SphereCast(pos, movementConfiguration.slopeCheckRadius, Vector3.down, out RaycastHit hit, movementConfiguration.slopeCheckRadius + movementConfiguration.slopeCheckDistance, movementConfiguration.groundedMask, QueryTriggerInteraction.Ignore))
+            if (Physics.SphereCast(pos, movementConfiguration.slopeCheckRadius, Vector3.down, out RaycastHit hit, movementConfiguration.slopeCheckRadius + movementConfiguration.slopeCheckDistance, groundMask, QueryTriggerInteraction.Ignore))
             {
                 // Get horizontal direction of the normal
                 _slopeNormal = hit.normal;
