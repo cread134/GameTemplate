@@ -5,6 +5,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem.Controls;
+using static Codice.Client.BaseCommands.Import.Commit;
 
 namespace Player.Movement
 {
@@ -34,6 +35,8 @@ namespace Player.Movement
 
         private float _slopeAngle;
         private float _desiredStepOffset;
+        private float _lastJump;
+        private float _jumpCooldown = 0.2f;
 
         public void OnBehaviourInit(IPlayerController playerController, IPlayerResources playerResources)
         {
@@ -47,7 +50,6 @@ namespace Player.Movement
 
             //process behaviours
             _desiredStepOffset = characterController.stepOffset;
-            Debug.Log("stepoffset");
             initialised = true;
         }
 
@@ -78,6 +80,8 @@ namespace Player.Movement
 
         public bool Grounded
             => Physics.CheckSphere(characterController.transform.position + Vector3.up * (movementConfiguration.groundedCheckRadius - movementConfiguration.groundedDistance), movementConfiguration.groundedCheckRadius, groundMask);
+
+        public Vector3 Velocity => characterController.velocity;
 
         private void GroundCheck()
         {
@@ -222,7 +226,38 @@ namespace Player.Movement
 
         private void OnJumpDown(object sender, EventArgs e)
         {
+            Debug.Log("Jumping");
+            if (CanJump())
+            {
+                Debug.Log("Can Jump");
+                DoJump();
+            }
+        }
+        void DoJump()
+        {
+            Vector3 characterVelocity = Velocity;
+            float finalSpeed = Mathf.Sqrt(2 * -movementConfiguration.gravity * movementConfiguration.jumpHeight);
+            characterVelocity.y = 0;
+            Vector3 forceToAdd = (Vector3.up * finalSpeed) + (characterVelocity + (transform.forward * movementConfiguration.jumpForwardForce));
+            if (_appliedVelocity.y < 0f)
+            {
+                _appliedVelocity.y = 0;
+            }
+            if (moveVector.y < 0)
+            {
+                moveVector.y = 0;
+            }
+            _appliedVelocity += forceToAdd;
+            _lastJump = Time.time + _jumpCooldown;
+        }
 
+        bool CanJump()
+        {
+            if (_lastJump > Time.time)
+            {
+                return false;
+            }
+            return _isGrounded;
         }
 
         private void OnMoveDelta(object sender, Vector2 e)

@@ -1,6 +1,8 @@
-﻿namespace Core.Audio
+﻿using Core.Resources;
+
+namespace Core.Audio
 {
-    public interface IAudioManager
+    public interface IAudioManager : IResourceInstance
     {
     }
 }

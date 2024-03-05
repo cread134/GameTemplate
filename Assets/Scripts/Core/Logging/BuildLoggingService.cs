@@ -3,11 +3,10 @@ using UnityEngine;
 
 namespace Core.Logging
 {
-    internal class BuildLoggingService : ILoggingService, IGameService
+    internal class BuildLoggingService : ILoggingService
     {
-        public void OnServiceRegistering()
+        public void OnResourceCreating()
         {
-
         }
         public void Log(string message)
         {

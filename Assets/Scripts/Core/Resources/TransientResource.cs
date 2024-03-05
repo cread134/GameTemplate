@@ -6,7 +6,12 @@ namespace Core.Resources
     {
         public object Resolve()
         {
-            return (T)Activator.CreateInstance(typeof(U));
+            var instance = (T)Activator.CreateInstance(typeof(U));
+            if (instance is IResourceInstance createdResource)
+            {
+                createdResource.OnResourceCreating();
+            }
+            return instance;
         }
     }
 }

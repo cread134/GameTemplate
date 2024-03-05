@@ -1,4 +1,5 @@
 using Core.Audio;
+using Core.Debugging;
 using Core.Logging;
 using UnityEngine;
 
@@ -8,9 +9,10 @@ namespace Core.Resources
     {
         public static void RegisterServices()
         {
-            ObjectFactory.RegisterService<IAudioManager, AudioManager>(serviceType: ObjectFactory.ServiceType.Monobehaviour);
-            
             ConfigureLogging();
+            ObjectFactory.RegisterService<IUiResources, UiResources>(ObjectFactory.ServiceType.Singleton);
+            ObjectFactory.RegisterService<IAudioManager, AudioManager>(ObjectFactory.ServiceType.Monobehaviour);
+            ObjectFactory.RegisterService<IDebugController, DebugController>(ObjectFactory.ServiceType.Monobehaviour);
         }
 
         static void ConfigureLogging()

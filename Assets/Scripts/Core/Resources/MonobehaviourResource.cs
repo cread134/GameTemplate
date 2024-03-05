@@ -10,6 +10,11 @@ namespace Core.Resources
             var type = typeof(T);
             var resourceInstance = new GameObject(type.Name, typeof(U));
             _resource = resourceInstance.GetComponent<U>() as T; 
+
+            if (_resource is IResourceInstance createdResource)
+            {
+                createdResource.OnResourceCreating();
+            }
         }
         public object Resolve()
         {

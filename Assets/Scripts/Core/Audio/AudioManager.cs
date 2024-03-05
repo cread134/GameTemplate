@@ -5,9 +5,9 @@ using UnityEngine;
 
 namespace Core.Audio
 {
-    public class AudioManager : MonoBehaviour, IAudioManager, IGameService
+    public class AudioManager : MonoBehaviour, IAudioManager
     {
-        public void OnServiceRegistering()
+        public void OnResourceCreating()
         {
             DontDestroyOnLoad(gameObject);
         }

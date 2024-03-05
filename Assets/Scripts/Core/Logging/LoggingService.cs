@@ -5,9 +5,8 @@ namespace Core.Logging
 {
     internal class LoggingService : ILoggingService, IGameService
     {
-        public void OnServiceRegistering()
+        public void OnResourceCreating()
         {
-
         }
         public void Log(string message)
         {

@@ -90,7 +90,7 @@ namespace Core.Resources
             switch (serviceType)
             {
                 case ServiceType.Singleton:
-                    return new GameResource<T, U>();
+                    return new SingletonResource<T, U>();
                 case ServiceType.Transient:
                     return new TransientResource<T, U>();
                 case ServiceType.Monobehaviour:

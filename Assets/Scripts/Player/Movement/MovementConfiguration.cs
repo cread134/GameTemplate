@@ -24,5 +24,7 @@ namespace Player.Movement
         public float slopeCheckRadius = 0.01f;
         public float slopeCheckDistance = 0.01f;
         public float slopeFlatAngle = 15.0f;
+        public float jumpHeight = 2f;
+        public float jumpForwardForce = 1.2f;
     }
 }
