@@ -1,6 +1,6 @@
 {
     "name": "Core.Editor",
-    "rootNamespace": "",
+    "rootNamespace": "Core.Editor",
     "references": [
         "GUID:32209dec08272be4a8eb3d83c34aa1ac"
     ],

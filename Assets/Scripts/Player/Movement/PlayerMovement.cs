@@ -72,6 +72,7 @@ namespace Player.Movement
             if (!initialised)
                 return;
             UpdateMovement();
+            playerCameraAnimator.UpdateHeadBob(Velocity);
         }
 
         private void OnDestroy()
@@ -241,10 +242,8 @@ namespace Player.Movement
 
         private void OnJumpDown(object sender, EventArgs e)
         {
-            Debug.Log("Jumping");
             if (CanJump())
             {
-                Debug.Log("Can Jump");
                 DoJump();
             }
         }

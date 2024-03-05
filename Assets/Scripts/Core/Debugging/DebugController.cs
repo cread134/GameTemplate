@@ -8,6 +8,7 @@ using Extension;
 using Core.Resources;
 using System;
 using System.Text;
+using UnityEngine.InputSystem;
 
 namespace Core.Debugging
 {
@@ -21,6 +22,8 @@ namespace Core.Debugging
         Dictionary<string, Func<string>> _subscribedViews = new Dictionary<string, Func<string>>();
 
         bool initialised = false;
+
+        private UIDocument document;
 
         public void OnResourceCreating()
         {
@@ -41,6 +44,7 @@ namespace Core.Debugging
                 return;
             }
             _subscribedViews.Add(name, message);
+
         }
 
         public void Unsubscribe(string name)
@@ -78,7 +82,7 @@ namespace Core.Debugging
 
         void CreateCanvas(VisualTreeAsset view)
         {
-            var document = DocumentFactory.CreateDocument("DebugCanvas", view, transform);
+            document = DocumentFactory.CreateDocument("DebugCanvas", view, transform);
             document.panelSettings = _uiResources.PanelSettings;
 
             _debugInfo = document.rootVisualElement.Q<Label>("debug-info");

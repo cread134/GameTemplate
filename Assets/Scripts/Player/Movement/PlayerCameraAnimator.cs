@@ -17,6 +17,14 @@ namespace Player.Movement
 
         const float CHECK_CEIL_RADIUS = 0.05f;
 
+        [SerializeField] private float _bobAmplitude = 0.05f;
+        [SerializeField] private float bobSpeedMultipler = 1f;
+
+        float _bobDamp = 4f;
+        float _bobIndex;
+        private Vector3 bobVector;
+        float _lastFootStep;
+
         bool initialised = false;
         public void OnBehaviourInit(IPlayerController playerController, IPlayerResources playerResources)
         {
@@ -45,6 +53,7 @@ namespace Player.Movement
         }
 
         private Coroutine _changeHeadCoroutine;
+
         IEnumerator SetheadHeight(float duration, float targetHeight)
         {
             float time = 0;
@@ -80,6 +89,37 @@ namespace Player.Movement
             }
             Gizmos.color = Color.red;
             Gizmos.DrawWireSphere(characterController.transform.position + Vector3.up * (characterController.height), CHECK_CEIL_RADIUS);
+        }
+
+        public void UpdateHeadBob(Vector3 velocity)
+        {
+            if(!initialised)
+            {
+                return;
+            }
+            var velocityMagnitude = new Vector2(velocity.x, velocity.z).magnitude;
+            targetTransform.localPosition = new Vector3(0f, Mathf.Sin(Time.time * 10) * 0.05f, 0f);
+            _bobIndex += Time.deltaTime * bobSpeedMultipler * Mathf.Clamp(1f + velocityMagnitude, -2f, 2f);
+            float rawValue = Mathf.Sin(_bobIndex);
+            if (rawValue <= -0.95f && Time.time > _lastFootStep)
+            {
+                _lastFootStep = Time.time + 0.1f;
+                OnBobPeak();
+            }
+            rawValue *= _bobAmplitude * 0.1f * velocityMagnitude;
+            _bobDamp = Mathf.Lerp(_bobDamp, rawValue, 5f * Time.deltaTime);
+            bobVector = new Vector3(0f, _bobDamp, 0f);
+            UpdateLocalHeadPosition();
+        }
+
+        void OnBobPeak()
+        {
+            
+        }
+
+        void UpdateLocalHeadPosition()
+        {
+            targetTransform.localPosition = Vector3.zero + bobVector;
         }
     }
 }
