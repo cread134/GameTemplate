@@ -17,10 +17,12 @@ namespace Player.Movement
 
         const float CHECK_CEIL_RADIUS = 0.05f;
 
+        bool initialised = false;
         public void OnBehaviourInit(IPlayerController playerController, IPlayerResources playerResources)
         {
             characterController = playerResources.GetComponentResource<CharacterController>();   
             groundMask = playerResources.GetLayerMaskResource("ground");
+            initialised = true;
         }
 
         public void StartBehaviour()
@@ -39,7 +41,7 @@ namespace Player.Movement
 
         public bool GetCeilingFree()
         {
-            return Physics.CheckSphere(characterController.transform.position + Vector3.up * (characterController.height - CHECK_CEIL_RADIUS + CHECK_CEIL_RADIUS), CHECK_CEIL_RADIUS, groundMask);
+            return Physics.CheckSphere(characterController.transform.position + Vector3.up * (characterController.height), CHECK_CEIL_RADIUS, groundMask);
         }
 
         private Coroutine _changeHeadCoroutine;
@@ -69,5 +71,15 @@ namespace Player.Movement
             headHolder.localPosition = new Vector3(0f, newHeight, 0f);
         }
         #endregion
+
+        private void OnDrawGizmos()
+        {
+            if(!initialised)
+            {
+                return;
+            }
+            Gizmos.color = Color.red;
+            Gizmos.DrawWireSphere(characterController.transform.position + Vector3.up * (characterController.height), CHECK_CEIL_RADIUS);
+        }
     }
 }

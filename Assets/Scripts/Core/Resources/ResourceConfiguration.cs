@@ -10,6 +10,7 @@ namespace Core.Resources
         public static void RegisterServices()
         {
             ConfigureLogging();
+            ObjectFactory.RegisterService<IEventService, EventService>(ObjectFactory.ServiceType.Monobehaviour);
             ObjectFactory.RegisterService<IUiResources, UiResources>(ObjectFactory.ServiceType.Singleton);
             ObjectFactory.RegisterService<IAudioManager, AudioManager>(ObjectFactory.ServiceType.Monobehaviour);
             ObjectFactory.RegisterService<IDebugController, DebugController>(ObjectFactory.ServiceType.Monobehaviour);

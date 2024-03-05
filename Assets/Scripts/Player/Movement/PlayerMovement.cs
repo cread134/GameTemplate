@@ -1,3 +1,5 @@
+using Core.Debugging;
+using Core.Resources;
 using Player.Interaction;
 using Player.PlayerResources;
 using System;
@@ -12,6 +14,8 @@ namespace Player.Movement
     public class PlayerMovement : MonoBehaviour, IPlayerBehaviour
     {
         private CharacterController characterController;
+        private IDebugController debugController;
+
         private IPlayerCameraAnimator playerCameraAnimator;
         [SerializeField] private MovementConfiguration movementConfiguration;
 
@@ -45,6 +49,11 @@ namespace Player.Movement
             playerCameraAnimator = playerResources.GetBehaviourResource<PlayerCameraAnimator>();
             groundMask = playerResources.GetLayerMaskResource("Ground");
 
+            debugController = ObjectFactory.ResolveService<IDebugController>();
+            debugController.SubscribeView("Velocity", () => Velocity.ToString());
+            debugController.SubscribeView("AppliedVelocity", () => _appliedVelocity.ToString());
+            debugController.SubscribeView("Grounded", () => _isGrounded.ToString());
+
             playerController.MoveDelta += OnMoveDelta;
             playerController.OnJumpDown += OnJumpDown;
 
@@ -63,6 +72,12 @@ namespace Player.Movement
             if (!initialised)
                 return;
             UpdateMovement();
+        }
+
+        private void OnDestroy()
+        {
+            debugController.Unsubscribe("Velocity");
+            debugController.Unsubscribe("Grounded");
         }
 
         private void UpdateMovement()
@@ -267,6 +282,14 @@ namespace Player.Movement
 
         private void OnLand()
         {
+        }
+
+        private void OnDrawGizmos()
+        {
+            if(!initialised)
+                return; 
+            Gizmos.color = Color.red;
+            Gizmos.DrawWireSphere(characterController.transform.position + Vector3.up * (movementConfiguration.groundedCheckRadius - movementConfiguration.groundedDistance), movementConfiguration.groundedCheckRadius);
         }
     }
 }

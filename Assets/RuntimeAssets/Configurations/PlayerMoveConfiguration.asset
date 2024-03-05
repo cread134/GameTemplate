@@ -14,16 +14,18 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   walkHeadHeight: 1.8
   airControlMultipler: 0.3
-  groundedCheckRadius: 0.05
-  groundedDistance: 0.01
+  groundedCheckRadius: 0.08
+  groundedDistance: 0.12
   gravity: -9.8
   airDensity: 1.293
   dragCoefficient: 0.01
   coefficientOfFriction: 0.1
   acceleration: 10
-  moveSpeed: 14
+  moveSpeed: 6
   slopeGravity: -3
   maxGroundedSlopeAngle: 45
   slopeCheckRadius: 0.01
   slopeCheckDistance: 0.01
   slopeFlatAngle: 15
+  jumpHeight: 1
+  jumpForwardForce: 1.1
