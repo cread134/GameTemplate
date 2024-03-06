@@ -20,10 +20,14 @@ namespace Player.Movement
         [SerializeField] private float _bobAmplitude = 0.05f;
         [SerializeField] private float bobSpeedMultipler = 1f;
 
+        const float ANIMATION_DAMPING = 5f;
+
         float _bobDamp = 4f;
         float _bobIndex;
-        private Vector3 bobVector;
         float _lastFootStep;
+        Vector3 bobVector;
+        Vector3 animModulation;
+        Vector3 animationDamper;
 
         bool initialised = false;
         public void OnBehaviourInit(IPlayerController playerController, IPlayerResources playerResources)
@@ -35,6 +39,23 @@ namespace Player.Movement
 
         public void StartBehaviour()
         {
+        }
+
+        private void Update()
+        {
+            if(!initialised)
+            {
+                return;
+            }
+            if (Vector3.Magnitude(animationDamper) > 0.05f && !playingAnimation)
+            {
+                DampAnimation();
+            }
+        }
+
+        void DampAnimation()
+        {
+            animationDamper = Vector3.Lerp(animationDamper, animModulation, ANIMATION_DAMPING * Time.deltaTime);
         }
 
         #region HeadHeight
@@ -119,7 +140,43 @@ namespace Player.Movement
 
         void UpdateLocalHeadPosition()
         {
-            targetTransform.localPosition = Vector3.zero + bobVector;
+            targetTransform.localPosition = Vector3.zero;
+            targetTransform.localPosition += bobVector;
+            targetTransform.localPosition += animationDamper;
+        }
+
+        Coroutine headAnimCoroutine;
+        private bool playingAnimation;
+
+        public void DoHeadAnimation(AnimationCurve curve_X, AnimationCurve curve_Y, AnimationCurve curve_Z, float duration, float multiplier = 1f)
+        {
+            if (headAnimCoroutine != null)
+            {
+                StopCoroutine(headAnimCoroutine);
+                playingAnimation = false;
+            }
+            headAnimCoroutine = StartCoroutine(HeadAnimation(curve_X, curve_Y, curve_Z, duration, multiplier));
+        }
+
+        IEnumerator HeadAnimation(AnimationCurve curve_X, AnimationCurve curve_Y, AnimationCurve curve_Z, float duration, float multiplier)
+        {
+            playingAnimation = true;
+            animModulation = Vector3.zero;
+            float time = 0;
+            while (time < duration)
+            {
+                float x = curve_X?.Evaluate(time / duration) ?? 0f;
+                float y = curve_Y?.Evaluate(time / duration) ?? 0f;
+                float z = curve_Z?.Evaluate(time / duration) ?? 0f;
+                animModulation = new Vector3(x, y, z) * multiplier;
+                DampAnimation();
+                time += Time.deltaTime;
+                UpdateLocalHeadPosition();
+                yield return null;
+            }
+            animModulation = Vector3.zero;
+            UpdateLocalHeadPosition();
+            playingAnimation = false;
         }
     }
 }

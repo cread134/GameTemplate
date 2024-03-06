@@ -263,6 +263,8 @@ namespace Player.Movement
             }
             _appliedVelocity += forceToAdd;
             _lastJump = Time.time + _jumpCooldown;
+
+            playerCameraAnimator.DoHeadAnimation(null, movementConfiguration.jumpCurve_Y, movementConfiguration.jumpCurve_Z, movementConfiguration.jumpCurveDuration, movementConfiguration.jumpCurveMultiplier);
         }
 
         bool CanJump()
@@ -281,6 +283,7 @@ namespace Player.Movement
 
         private void OnLand()
         {
+            playerCameraAnimator.DoHeadAnimation(null, movementConfiguration.landCurve_Y, movementConfiguration.landCurve_Z, movementConfiguration.landCurveDuration, movementConfiguration.landCurveMultiplier);
         }
 
         private void OnDrawGizmos()
