@@ -1,0 +1,33 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9181b17dc2d04ea42899d76a68ffee56, type: 3}
+  m_Name: DefaultInteractionMappings
+  m_EditorClassIdentifier: 
+  InteractionMappings:
+  - Name: CloseDebugInfo
+    ActionMapping:
+      m_Name: Action Mapping
+      m_Type: 0
+      m_ExpectedControlType: 
+      m_Id: cd437b7c-4019-40fd-b5b9-4839c7c14b4d
+      m_Processors: 
+      m_Interactions: 
+      m_SingletonActionBindings:
+      - m_Name: 
+        m_Id: 6aaab78e-28bf-4761-85e3-5214e0507ecb
+        m_Path: <Keyboard>/k
+        m_Interactions: 
+        m_Processors: 
+        m_Groups: 
+        m_Action: Action Mapping
+        m_Flags: 0
+      m_Flags: 0

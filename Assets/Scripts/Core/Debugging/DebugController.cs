@@ -9,6 +9,7 @@ using Core.Resources;
 using System;
 using System.Text;
 using UnityEngine.InputSystem;
+using Core.Interaction;
 
 namespace Core.Debugging
 {
@@ -22,6 +23,7 @@ namespace Core.Debugging
         Dictionary<string, Func<string>> _subscribedViews = new Dictionary<string, Func<string>>();
 
         bool initialised = false;
+        bool doShow = false;
 
         private UIDocument document;
 
@@ -30,9 +32,16 @@ namespace Core.Debugging
             _uiResources = ObjectFactory.ResolveService<IUiResources>();
             var eventService = ObjectFactory.ResolveService<IEventService>();
             eventService.OnLateUpdate += (sender, args) => RenderView();
+            var interactionService = ObjectFactory.ResolveService<IInteractionService>();
+            interactionService.SubscribeToInput("CloseDebugInfo", OnDisplayPressed);
 
             DontDestroyOnLoad(gameObject);
             StartCoroutine(GenerateCanvas());
+        }
+
+        void OnDisplayPressed()
+        {
+            doShow = !doShow;
         }
 
         public void SubscribeView(string name, Func<string> message)
@@ -59,6 +68,11 @@ namespace Core.Debugging
         void RenderView()
         {
             if (!initialised) return;
+            if (!doShow)
+            {
+                _debugInfo.text = "";
+                return;
+            }
             var sb = new StringBuilder();
             foreach (var view in _subscribedViews)
             {

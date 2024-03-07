@@ -1,5 +1,6 @@
 using Core.Audio;
 using Core.Debugging;
+using Core.Interaction;
 using Core.Logging;
 using UnityEngine;
 
@@ -13,6 +14,7 @@ namespace Core.Resources
             ObjectFactory.RegisterService<IEventService, EventService>(ObjectFactory.ServiceType.Monobehaviour);
             ObjectFactory.RegisterService<IUiResources, UiResources>(ObjectFactory.ServiceType.Singleton);
             ObjectFactory.RegisterService<IAudioManager, AudioManager>(ObjectFactory.ServiceType.Monobehaviour);
+            ObjectFactory.RegisterService<IInteractionService, InteractionService>(ObjectFactory.ServiceType.Monobehaviour);   
             ObjectFactory.RegisterService<IDebugController, DebugController>(ObjectFactory.ServiceType.Monobehaviour);
         }
 

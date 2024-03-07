@@ -1,3 +1,4 @@
+using Core.AssetManagement;
 using UnityEngine.AddressableAssets;
 using UnityEngine.UIElements;
 
@@ -26,13 +27,7 @@ namespace Core.Resources
 
         private PanelSettings LoadPanelSettings()
         {
-            var handle = Addressables.LoadAssetAsync<PanelSettings>(SETTINGS_PATH);
-            handle.Completed += (op) =>
-            {
-                _panelSettings = op.Result;
-            };
-            handle.WaitForCompletion();
-            Addressables.Release(handle);
+            _panelSettings = AssetManager.Load<PanelSettings>(SETTINGS_PATH);
             return _panelSettings;
         }
     }
