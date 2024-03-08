@@ -5,7 +5,9 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.AddressableAssets;
 using UnityEngine.InputSystem;
+using UnityEngine.ResourceManagement.AsyncOperations;
 
 namespace Core.Interaction
 {
@@ -16,6 +18,7 @@ namespace Core.Interaction
         private Dictionary<string, EventHandler> actionCallbacks;
         private ILoggingService loggingService;
 
+        AsyncOperationHandle<InteractionConfiguration> handle;
         const string BASE_INTERACTION_PATH = "Assets/RuntimeAssets/Configurations/DefaultInteractionMappings.asset";
 
         public void OnResourceCreating()
@@ -32,7 +35,7 @@ namespace Core.Interaction
             actionCallbacks = new Dictionary<string, EventHandler>();
 
             //load actions
-            var defaultConfiguration = AssetManager.Load<InteractionConfiguration>(BASE_INTERACTION_PATH);
+            var defaultConfiguration = AssetManager.Load<InteractionConfiguration>(BASE_INTERACTION_PATH, out handle);
             foreach (var action in defaultConfiguration.InteractionMappings)
             {
                 RegisterInputAction(action.Name, action.ActionMapping);
@@ -70,6 +73,21 @@ namespace Core.Interaction
         void OnActionTriggered(string actionName)
         {
             actionCallbacks[actionName]?.Invoke(this, EventArgs.Empty);
+        }
+
+        private void OnDestroy()
+        {
+            if (initialised)
+            {
+                foreach (var action in inputActions)
+                {
+                    action.Value.Disable();
+                }
+            }
+            if(handle.IsValid())
+            {
+                Addressables.Release(handle);
+            }
         }
     }
 }

@@ -1,4 +1,7 @@
+using System.Collections;
+using System.Collections.Generic;
 using UnityEngine.AddressableAssets;
+using UnityEngine.ResourceManagement.AsyncOperations;
 using UnityEngine.UIElements;
 
 namespace Core.AssetManagement
@@ -11,20 +14,20 @@ namespace Core.AssetManagement
         /// <typeparam name="T"></typeparam>
         /// <param name="addressablePath"></param>
         /// <returns></returns>
-        public static T Load<T>(string addressablePath)
+        public static T Load<T>(string addressablePath, out AsyncOperationHandle<T> handle)
         {
             T instance = default;
             try { 
-                var handle = Addressables.LoadAssetAsync<T>(addressablePath);
+                handle = Addressables.LoadAssetAsync<T>(addressablePath);
                 handle.Completed += (op) =>
                 {
                     instance = op.Result;
                 };
                 handle.WaitForCompletion();
-                Addressables.Release(handle);
             }
             catch (System.Exception e)
             {
+                handle = default;
                 UnityEngine.Debug.LogError($"Error loading asset {addressablePath} - {e.Message}");
             }
             return instance;

@@ -1,3 +1,5 @@
+using Core.Audio;
+using Core.Resources;
 using Player.Interaction;
 using Player.PlayerResources;
 using System.Collections;
@@ -10,9 +12,11 @@ namespace Player.Movement
     {
         [SerializeField] private Transform headHolder;
         [SerializeField] private Transform targetTransform;
+        [SerializeField] private AudioObject footStepAudio;
         [SerializeField] private float colliderHeightOffset = 0.1f;
 
         private CharacterController characterController;
+        private IAudioManager audioManager;
         private LayerMask groundMask;
 
         const float CHECK_CEIL_RADIUS = 0.05f;
@@ -34,6 +38,7 @@ namespace Player.Movement
         {
             characterController = playerResources.GetComponentResource<CharacterController>();   
             groundMask = playerResources.GetLayerMaskResource("ground");
+            audioManager = ObjectFactory.ResolveService<IAudioManager>();
             initialised = true;
         }
 
@@ -135,7 +140,7 @@ namespace Player.Movement
 
         void OnBobPeak()
         {
-            
+            audioManager.PlaySound(footStepAudio, characterController.transform.position);
         }
 
         void UpdateLocalHeadPosition()

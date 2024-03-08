@@ -8,7 +8,7 @@ namespace Core.Logging
         public void OnResourceCreating()
         {
         }
-        public void Log(string message)
+        public void Log(string message, string category = null)
         {
             Debug.Log(message);
         }

@@ -77,8 +77,8 @@ namespace Player.Movement
 
         private void OnDestroy()
         {
-            debugController.Unsubscribe("Velocity");
-            debugController.Unsubscribe("Grounded");
+            debugController?.Unsubscribe("Velocity");
+            debugController?.Unsubscribe("Grounded");
         }
 
         private void UpdateMovement()
