@@ -1,4 +1,5 @@
 using Core.Logging;
+using Core.PauseManagement;
 using Core.Resources;
 using System;
 using System.Collections;
@@ -9,19 +10,7 @@ using UnityEngine.SceneManagement;
 
 namespace Core.SceneManagement
 {
-    public interface ILoadedObject
-    {
-        void OnLoadedIntoScene();
-        List<SceneLoadingHook> GetLoadHooks();
-    }
-
-    public class SceneLoadingHook
-    {
-        public string message;
-        public Func<bool> condition;
-    }
-
-    public class SceneLoader : MonoBehaviour, ISceneLoader
+    internal class SceneLoader : MonoBehaviour, ISceneLoader
     {
         const int LOADING_SCENE_INDEX = 0;
         ILoggingService loggingService;
@@ -36,12 +25,24 @@ namespace Core.SceneManagement
                 return;
             }
             isLoadingScene = true;
-            StartCoroutine(LoadSceneAsync(registeredScene));
+            loggingService.Log($"Loading scene {registeredScene.sceneName}");
+            StartCoroutine(LoadSceneAsync(registeredScene.buildIndex, () => OnSceneLoaded?.Invoke(this, registeredScene)));
         }
 
-        IEnumerator LoadSceneAsync(GameScene registeredScene)
+        public void LoadScene(int buildIndex)
         {
-            loggingService.Log($"Loading scene {registeredScene.sceneName}");
+            if (isLoadingScene)
+            {
+                return;
+            }
+            isLoadingScene = true;
+            loggingService.Log($"Loading scene at buildIndex {buildIndex}");
+            StartCoroutine(LoadSceneAsync(buildIndex, () => { }));
+        }
+
+        IEnumerator LoadSceneAsync(int buildIndex, Action sceneLoadedCallback)
+        {
+            CursorManager.LockCursor = false;
             loadingHooks.Clear();
             SceneManager.LoadScene(LOADING_SCENE_INDEX, LoadSceneMode.Additive);
 
@@ -56,10 +57,10 @@ namespace Core.SceneManagement
             }
 
             //load new scene
-            yield return SceneManager.LoadSceneAsync(registeredScene.buildIndex, LoadSceneMode.Additive);
-            SceneManager.SetActiveScene(SceneManager.GetSceneByBuildIndex(registeredScene.buildIndex));
+            yield return SceneManager.LoadSceneAsync(buildIndex, LoadSceneMode.Additive);
+            SceneManager.SetActiveScene(SceneManager.GetSceneByBuildIndex(buildIndex));
             PopulateHooks();
-            OnSceneLoaded?.Invoke(this, registeredScene);
+            sceneLoadedCallback?.Invoke();
 
             while (loadingHooks.Count > 0)
             {
@@ -69,12 +70,11 @@ namespace Core.SceneManagement
             }
             //finished
             yield return UnloadSceneAsync(LOADING_SCENE_INDEX);
-
         }
 
         IEnumerator UnloadSceneAsync(int buildIndex)
         {
-            yield return null;
+            yield return SceneManager.UnloadSceneAsync(buildIndex);
         }
 
         Queue<SceneLoadingHook> loadingHooks = new Queue<SceneLoadingHook>();

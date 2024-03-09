@@ -13,7 +13,7 @@ using Core.Interaction;
 
 namespace Core.Debugging
 {
-    public class DebugController : MonoBehaviour, IDebugController
+    internal class DebugController : MonoBehaviour, IDebugController
     {
         const string VIEW_PATH = "Assets/UI/DebugUi/DebugInfoView.uxml";
 

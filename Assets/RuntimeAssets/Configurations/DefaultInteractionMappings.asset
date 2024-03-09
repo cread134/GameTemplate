@@ -14,6 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   InteractionMappings:
   - Name: CloseDebugInfo
+    ActionCallbackType: 2
     ActionMapping:
       m_Name: Action Mapping
       m_Type: 0
@@ -25,6 +26,152 @@ MonoBehaviour:
       - m_Name: 
         m_Id: 6aaab78e-28bf-4761-85e3-5214e0507ecb
         m_Path: <Keyboard>/k
+        m_Interactions: 
+        m_Processors: 
+        m_Groups: 
+        m_Action: Action Mapping
+        m_Flags: 0
+      m_Flags: 0
+  - Name: movement
+    ActionCallbackType: 4
+    ActionMapping:
+      m_Name: Action Mapping
+      m_Type: 0
+      m_ExpectedControlType: 
+      m_Id: cd437b7c-4019-40fd-b5b9-4839c7c14b4d
+      m_Processors: 
+      m_Interactions: 
+      m_SingletonActionBindings:
+      - m_Name: 2D Vector
+        m_Id: 662cbf9a-2584-4506-a2b6-b1c37781dec4
+        m_Path: 2DVector
+        m_Interactions: 
+        m_Processors: 
+        m_Groups: 
+        m_Action: Action Mapping
+        m_Flags: 4
+      - m_Name: up
+        m_Id: 038b87fe-36ce-4fca-ad8b-bd7b86edcca8
+        m_Path: <Keyboard>/w
+        m_Interactions: 
+        m_Processors: 
+        m_Groups: 
+        m_Action: Action Mapping
+        m_Flags: 8
+      - m_Name: down
+        m_Id: 39267fb6-fa8c-4f61-8663-976e423c59cb
+        m_Path: <Keyboard>/s
+        m_Interactions: 
+        m_Processors: 
+        m_Groups: 
+        m_Action: Action Mapping
+        m_Flags: 8
+      - m_Name: left
+        m_Id: 2b8b26d8-c23b-4591-98ef-8a96cc862331
+        m_Path: <Keyboard>/a
+        m_Interactions: 
+        m_Processors: 
+        m_Groups: 
+        m_Action: Action Mapping
+        m_Flags: 8
+      - m_Name: right
+        m_Id: ddb26e66-015b-41cb-b70c-105d91786de6
+        m_Path: <Keyboard>/d
+        m_Interactions: 
+        m_Processors: 
+        m_Groups: 
+        m_Action: Action Mapping
+        m_Flags: 8
+      m_Flags: 0
+  - Name: look_delta
+    ActionCallbackType: 4
+    ActionMapping:
+      m_Name: Action Mapping
+      m_Type: 0
+      m_ExpectedControlType: 
+      m_Id: cd437b7c-4019-40fd-b5b9-4839c7c14b4d
+      m_Processors: 
+      m_Interactions: 
+      m_SingletonActionBindings:
+      - m_Name: 
+        m_Id: ab3c8dad-6468-4fc4-bc15-37527eb83c53
+        m_Path: <Mouse>/delta
+        m_Interactions: 
+        m_Processors: 
+        m_Groups: 
+        m_Action: Action Mapping
+        m_Flags: 0
+      m_Flags: 0
+  - Name: on_jump
+    ActionCallbackType: 0
+    ActionMapping:
+      m_Name: Action Mapping
+      m_Type: 0
+      m_ExpectedControlType: 
+      m_Id: cd437b7c-4019-40fd-b5b9-4839c7c14b4d
+      m_Processors: 
+      m_Interactions: 
+      m_SingletonActionBindings:
+      - m_Name: 
+        m_Id: ab3c8dad-6468-4fc4-bc15-37527eb83c53
+        m_Path: <Keyboard>/space
+        m_Interactions: 
+        m_Processors: 
+        m_Groups: 
+        m_Action: Action Mapping
+        m_Flags: 0
+      m_Flags: 0
+  - Name: on_main
+    ActionCallbackType: 0
+    ActionMapping:
+      m_Name: Action Mapping
+      m_Type: 0
+      m_ExpectedControlType: 
+      m_Id: cd437b7c-4019-40fd-b5b9-4839c7c14b4d
+      m_Processors: 
+      m_Interactions: 
+      m_SingletonActionBindings:
+      - m_Name: 
+        m_Id: ab3c8dad-6468-4fc4-bc15-37527eb83c53
+        m_Path: <Mouse>/leftButton
+        m_Interactions: 
+        m_Processors: 
+        m_Groups: 
+        m_Action: Action Mapping
+        m_Flags: 0
+      m_Flags: 0
+  - Name: on_secondary
+    ActionCallbackType: 0
+    ActionMapping:
+      m_Name: Action Mapping
+      m_Type: 0
+      m_ExpectedControlType: 
+      m_Id: cd437b7c-4019-40fd-b5b9-4839c7c14b4d
+      m_Processors: 
+      m_Interactions: 
+      m_SingletonActionBindings:
+      - m_Name: 
+        m_Id: ab3c8dad-6468-4fc4-bc15-37527eb83c53
+        m_Path: <Mouse>/rightButton
+        m_Interactions: 
+        m_Processors: 
+        m_Groups: 
+        m_Action: Action Mapping
+        m_Flags: 0
+      m_Flags: 0
+  - Name: on_pause
+    ActionCallbackType: 2
+    ActionMapping:
+      m_Name: Action Mapping
+      m_Type: 0
+      m_ExpectedControlType: 
+      m_Id: cd437b7c-4019-40fd-b5b9-4839c7c14b4d
+      m_Processors: 
+      m_Interactions: 
+      m_SingletonActionBindings:
+      - m_Name: 
+        m_Id: ab3c8dad-6468-4fc4-bc15-37527eb83c53
+        m_Path: <Keyboard>/tab
         m_Interactions: 
         m_Processors: 
         m_Groups: 

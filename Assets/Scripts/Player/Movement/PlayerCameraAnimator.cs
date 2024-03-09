@@ -127,7 +127,7 @@ namespace Player.Movement
             targetTransform.localPosition = new Vector3(0f, Mathf.Sin(Time.time * 10) * 0.05f, 0f);
             _bobIndex += Time.deltaTime * bobSpeedMultipler * Mathf.Clamp(1f + velocityMagnitude, -2f, 2f);
             float rawValue = Mathf.Sin(_bobIndex);
-            if (rawValue <= -0.95f && Time.time > _lastFootStep)
+            if (rawValue <= -0.95f && Time.time > _lastFootStep && velocityMagnitude > 0.2f)
             {
                 _lastFootStep = Time.time + 0.1f;
                 OnBobPeak();

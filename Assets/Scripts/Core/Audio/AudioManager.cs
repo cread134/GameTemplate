@@ -8,7 +8,7 @@ using UnityEngine.ResourceManagement.AsyncOperations;
 
 namespace Core.Audio
 {
-    public class AudioManager : MonoBehaviour, IAudioManager
+    internal class AudioManager : MonoBehaviour, IAudioManager
     {
         const int AUDIO_INSTANCE_COUNT = 20;
         bool initialised;
@@ -32,16 +32,14 @@ namespace Core.Audio
                 return null;
             }
             settings = settings ?? AudioSettings.Default;
-            if (m_AudioInstancePool.Count == 0)
-            {
-                GenerateAudioInstances();
-            }
+
             var audioInstance = m_AudioInstancePool.Dequeue();
             if (!audioInstance.gameObject.activeSelf)
             {
                 audioInstance.gameObject.SetActive(true);
             }
             audioInstance.PlaySound(position, audioObject, settings);
+            m_AudioInstancePool.Enqueue(audioInstance);
             return audioInstance;
         }
 

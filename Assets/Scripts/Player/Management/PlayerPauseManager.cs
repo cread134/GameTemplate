@@ -1,4 +1,6 @@
 using Core.PauseManagement;
+using Core.Resources;
+using Core.SceneManagement;
 using Player.Interaction;
 using Player.PlayerResources;
 using System;
@@ -15,11 +17,13 @@ namespace Player.Management
 
         private bool initialized = false;
         private IPlayerMouseLook playerMouseLook;
+        private ISceneLoader sceneLoader;
 
         public void OnBehaviourInit(IPlayerController playerController, IPlayerResources playerResources)
         {
             playerController.OnPauseButton += OnPauseButton;
             playerMouseLook = playerResources.GetBehaviourResource<PlayerMouseLook>();
+            sceneLoader = ObjectFactory.ResolveService<ISceneLoader>();
 
             InitMenu();
             initialized = true;
@@ -37,7 +41,7 @@ namespace Player.Management
 
         private void OnMainMenuButton()
         {
-            throw new NotImplementedException();
+            sceneLoader.LoadScene(1);
         }
 
         private void OnPauseButton(object sender, EventArgs e)
@@ -60,13 +64,13 @@ namespace Player.Management
         public void StartPause()
         {
             PauseManager.SetPause();
-            playerMouseLook.SetCursorLock(false);
+            CursorManager.LockCursor = false;
             pauseMenu.rootVisualElement.style.display = DisplayStyle.Flex;
         }
         public void EndPause()
         {
             PauseManager.UnsetPause();
-            playerMouseLook.SetCursorLock(true);
+            CursorManager.LockCursor = true;
             pauseMenu.rootVisualElement.style.display = DisplayStyle.None;
         }
 

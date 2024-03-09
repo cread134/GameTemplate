@@ -1,0 +1,6 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" xsi="http://www.w3.org/2001/XMLSchema-instance" engine="UnityEngine.UIElements" editor="UnityEditor.UIElements" noNamespaceSchemaLocation="../../../UIElementsSchema/UIElements.xsd" editor-extension-mode="False">
+    <ui:VisualElement name="MainPanel" style="flex-grow: 1; background-color: rgb(120, 120, 120); margin-right: 20%; margin-left: 20%; margin-top: 10%; margin-bottom: 10%; -unity-background-image-tint-color: rgb(111, 111, 111); padding-left: 0; padding-right: 0; padding-top: 0; padding-bottom: 0;">
+        <ui:Label tabindex="-1" text="Main Menu" display-tooltip-when-elided="true" name="Title" style="font-size: 40px; -unity-text-align: upper-center; margin-top: 20px; -unity-font-style: bold;" />
+        <ui:Button text="Enter Game" display-tooltip-when-elided="true" name="EnterGameButton" style="margin-top: 10%; height: 10%;" />
+    </ui:VisualElement>
+</ui:UXML>

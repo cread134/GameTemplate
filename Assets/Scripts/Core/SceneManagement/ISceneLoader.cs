@@ -7,6 +7,8 @@ namespace Core.SceneManagement
     {
         void LoadScene(GameScene registeredScene);
         void RegisterLoadingHook(SceneLoadingHook loadingHook);
+        void LoadScene(int buildIndex);
+
         EventHandler<GameScene> OnSceneLoaded { get; set; }
     }
 }

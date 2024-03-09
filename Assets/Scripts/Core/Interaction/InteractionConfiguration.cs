@@ -1,5 +1,4 @@
 using UnityEngine;
-using UnityEngine.InputSystem;
 
 namespace Core.Interaction
 {
@@ -8,11 +7,5 @@ namespace Core.Interaction
     {
         public InteractionMapping[] InteractionMappings;
 
-        [System.Serializable]
-        public struct InteractionMapping
-        {
-            public string Name;
-            public InputAction ActionMapping;
-        }
     }
 }

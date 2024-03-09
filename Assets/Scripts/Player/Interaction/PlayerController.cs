@@ -1,3 +1,4 @@
+using Core.Interaction;
 using Core.Logging;
 using Core.Resources;
 using System;
@@ -9,69 +10,60 @@ namespace Player.Interaction
     public class PlayerController : MonoBehaviour, IPlayerController
     {
         private ILoggingService loggingService;
+        private IInteractionService interactionService;
 
         public void Activate()
         {
             loggingService = ObjectFactory.ResolveService<ILoggingService>();
-            Debug.Log($"LoggingService null: {loggingService is null}");
+            interactionService = ObjectFactory.ResolveService<IInteractionService>();
+
+            interactionService.SubscribeToInput<Vector2>("movement", OnMove);
+            interactionService.SubscribeToInput<Vector2>("look_delta", OnLook);
+            interactionService.SubscribeToInput("on_jump", OnJumpActionDown, OnJumpActionUp);
+            interactionService.SubscribeToInput("on_main", OnMainActionDown, OnMainActionUp);
+            interactionService.SubscribeToInput("on_secondary", OnSecondaryActionDown, OnSecondaryActionUp);
+            interactionService.SubscribeToInput("on_pause", OnPause);
+
             loggingService.Log("PlayerController.Awake");
-
         }
 
-        public void OnLook(InputAction.CallbackContext context)
+        public void OnLook(Vector2 lookDelta)
         {
-            var vector2 = context.ReadValue<Vector2>();
-            LookDelta?.Invoke(this, vector2);
+            LookDelta?.Invoke(this, lookDelta);
+        }
+        public void OnMove(Vector2 moveDelta)
+        {
+            MoveDelta?.Invoke(this, moveDelta);
         }
 
-        public void OnMove(InputAction.CallbackContext context)
+        public void OnJumpActionDown()
         {
-            var vector2 = context.ReadValue<Vector2>();
-            MoveDelta?.Invoke(this, vector2);
+            OnJumpDown?.Invoke(this, EventArgs.Empty);
+        }
+        public void OnJumpActionUp()
+        {
+            OnJumpUp?.Invoke(this, EventArgs.Empty);
+        }
+        public void OnMainActionDown()
+        {
+            OnMainDown?.Invoke(this, EventArgs.Empty);
+        }
+        public void OnMainActionUp()
+        {
+            OnMainUp?.Invoke(this, EventArgs.Empty);
+        }
+        public void OnSecondaryActionUp()
+        {
+            OnSecondaryUp?.Invoke(this, EventArgs.Empty);
+        }
+        public void OnSecondaryActionDown()
+        {
+            OnSecondaryDown?.Invoke(this, EventArgs.Empty);
         }
 
-        public void OnJump(InputAction.CallbackContext context)
+        public void OnPause()
         {
-            if (context.performed)
-            {
-                OnJumpDown?.Invoke(this, EventArgs.Empty);
-            }
-            if(context.canceled)
-            {
-                OnJumpUp?.Invoke(this, EventArgs.Empty);
-            }
-        }
-
-        public void OnMain(InputAction.CallbackContext context)
-        {
-            if (context.performed)
-            {
-                OnMainDown?.Invoke(this, EventArgs.Empty);
-            }
-            if (context.canceled)
-            {
-                OnMainUp?.Invoke(this, EventArgs.Empty);
-            }
-        }
-
-        public void OnSecondary(InputAction.CallbackContext context)
-        {
-            if (context.performed)
-            {
-                OnSecondaryDown?.Invoke(this, EventArgs.Empty);
-            }
-            if (context.canceled)
-            {
-                OnSecondaryUp?.Invoke(this, EventArgs.Empty);
-            }
-        }
-
-        public void OnPause(InputAction.CallbackContext context)
-        {
-            if (context.performed)
-            {
-                OnPauseButton?.Invoke(this, EventArgs.Empty);
-            }
+            OnPauseButton?.Invoke(this, EventArgs.Empty);
         }
         #region interface entry points
 

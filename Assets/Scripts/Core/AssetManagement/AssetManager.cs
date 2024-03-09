@@ -32,5 +32,13 @@ namespace Core.AssetManagement
             }
             return instance;
         }
+
+        public static void Instantiate<T>(string addressablePath, System.Action<T> callback)
+        {
+            Addressables.InstantiateAsync(addressablePath).Completed += (op) =>
+            {
+                callback?.Invoke(op.Result.GetComponent<T>());
+            };
+        }
     }
 }

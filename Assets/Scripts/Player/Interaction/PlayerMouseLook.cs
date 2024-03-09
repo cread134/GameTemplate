@@ -15,13 +15,12 @@ namespace Player.Interaction
         [SerializeField] private MouseLookConfiguration mouseLookConfiguration;
 
         private bool initialized;
-        private bool cursorLocked;
         private Vector3 rotation;
         private Vector2 delta;
 
         public void OnBehaviourInit(IPlayerController playerController, IPlayerResources playerResources)
         {
-            SetCursorLock(true);
+            CursorManager.LockCursor = true;
             rotation = new Vector3(mouseLooker.localEulerAngles.x, playerBody.localEulerAngles.y);
             playerController.LookDelta += UpdateDelta;
             initialized = true;
@@ -33,25 +32,13 @@ namespace Player.Interaction
 
         void UpdateLook()
         {
-            if (!initialized || !cursorLocked) { return; }
+            if (!initialized) { return; }
             if (PauseManager.IsPaused)
                 return;
             rotation.x = Mathf.Clamp(rotation.x - delta.y, minAngle, maxAngle);
             rotation.y += delta.x % 360;
             mouseLooker.localEulerAngles = new Vector3(rotation.x, 0);
             playerBody.localEulerAngles += new Vector3(0, delta.x % 360);
-        }
-
-        public bool GetCursorLock()
-        {
-            return cursorLocked;
-        }
-
-        public void SetCursorLock(bool value)
-        {
-            Cursor.lockState = value ? CursorLockMode.Locked : CursorLockMode.None;
-            Cursor.visible = !value;
-            cursorLocked = value;
         }
 
         public void UpdateDelta(object sender, Vector2 delta)
