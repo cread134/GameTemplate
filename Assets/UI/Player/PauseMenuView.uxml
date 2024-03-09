@@ -1,0 +1,9 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" xsi="http://www.w3.org/2001/XMLSchema-instance" engine="UnityEngine.UIElements" editor="UnityEditor.UIElements" noNamespaceSchemaLocation="../../../UIElementsSchema/UIElements.xsd" editor-extension-mode="False">
+    <ui:VisualElement style="flex-grow: 1; background-color: rgb(140, 140, 140); transform-origin: left; width: 20%;">
+        <ui:Label tabindex="-1" text="Pause Menu" display-tooltip-when-elided="true" class="label_title" style="-unity-text-align: upper-center; font-size: 16px; -unity-font-style: bold;" />
+        <ui:VisualElement name="ButtonRegion" style="flex-grow: 1; background-color: rgba(0, 0, 0, 0); margin-left: 10px; margin-right: 10px; margin-top: 10px; margin-bottom: 10px;">
+            <ui:Button text="Main Menu" display-tooltip-when-elided="true" name="MainMenuButton" />
+            <ui:Button text="Return To Game" display-tooltip-when-elided="true" name="ReturnToGameButton" />
+        </ui:VisualElement>
+    </ui:VisualElement>
+</ui:UXML>

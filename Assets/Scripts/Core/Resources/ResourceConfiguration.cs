@@ -2,6 +2,7 @@ using Core.Audio;
 using Core.Debugging;
 using Core.Interaction;
 using Core.Logging;
+using Core.SceneManagement;
 using UnityEngine;
 
 namespace Core.Resources
@@ -16,6 +17,7 @@ namespace Core.Resources
             ObjectFactory.RegisterService<IAudioManager, AudioManager>(ObjectFactory.ServiceType.Monobehaviour);
             ObjectFactory.RegisterService<IInteractionService, InteractionService>(ObjectFactory.ServiceType.Monobehaviour);   
             ObjectFactory.RegisterService<IDebugController, DebugController>(ObjectFactory.ServiceType.Monobehaviour);
+            ObjectFactory.RegisterService<ISceneLoader, SceneLoader>(ObjectFactory.ServiceType.Monobehaviour);
         }
 
         static void ConfigureLogging()

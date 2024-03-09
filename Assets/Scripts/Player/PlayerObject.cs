@@ -1,5 +1,6 @@
 using Core.Logging;
 using Core.Resources;
+using Core.SceneManagement;
 using Player.Interaction;
 using Player.PlayerResources;
 using System.Collections;
@@ -9,9 +10,26 @@ using UnityEngine;
 
 namespace Player
 {
-    public class PlayerObject : MonoBehaviour
+    public class PlayerObject : MonoBehaviour, ILoadedObject
     {
+        public void OnLoadedIntoScene()
+        {
+        }
+
+        public List<SceneLoadingHook> GetLoadHooks()
+        {
+            return new List<SceneLoadingHook>()
+            {
+                new SceneLoadingHook()
+                {
+                    message = "Initialising player",
+                    condition = () => initialised,
+                }
+            };
+        }
+
         private ILoggingService _loggingService;
+        private bool initialised = false;
 
         [Header("Dependencies")]
         [SerializeField] private PlayerController playerController;
@@ -28,6 +46,7 @@ namespace Player
 
             InitBehaviours(behaviours);
             StartBehaviours(behaviours);
+            initialised = true;
         }
 
         void InitBehaviours(List<IPlayerBehaviour> behaviours)

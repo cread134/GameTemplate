@@ -18,5 +18,7 @@ namespace Player.Interaction
 
         public EventHandler OnJumpDown { get; set; }
         public EventHandler OnJumpUp { get; set; }
+
+        public EventHandler OnPauseButton { get; set; }
     }
 }

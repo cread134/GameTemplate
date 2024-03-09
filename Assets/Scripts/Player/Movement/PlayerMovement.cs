@@ -1,4 +1,5 @@
 using Core.Debugging;
+using Core.PauseManagement;
 using Core.Resources;
 using Player.Interaction;
 using Player.PlayerResources;
@@ -83,6 +84,10 @@ namespace Player.Movement
 
         private void UpdateMovement()
         {
+            if(!initialised) return;
+            if(PauseManager.IsPaused)
+                return;
+
             GroundCheck();
 
             UpdateSlopeValues();

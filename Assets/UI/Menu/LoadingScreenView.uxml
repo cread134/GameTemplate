@@ -1,0 +1,5 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" xsi="http://www.w3.org/2001/XMLSchema-instance" engine="UnityEngine.UIElements" editor="UnityEditor.UIElements" noNamespaceSchemaLocation="../../../UIElementsSchema/UIElements.xsd" editor-extension-mode="False">
+    <ui:VisualElement name="BackingPanel" style="flex-grow: 1; background-color: rgb(123, 123, 123);">
+        <ui:Slider picking-mode="Ignore" label="Slider" value="0.5" high-value="1" name="LoadingSlider" focusable="false" direction="Horizontal" show-input-field="false" style="flex-direction: column; -unity-text-align: upper-center; padding-left: 50px; padding-right: 50px; justify-content: flex-start; align-self: auto; align-items: center; top: 40%; -unity-font-style: bold; font-size: 20px; background-color: rgba(0, 0, 0, 0);" />
+    </ui:VisualElement>
+</ui:UXML>

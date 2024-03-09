@@ -1,11 +1,7 @@
 {
-    "name": "Player",
-    "rootNamespace": "Player",
-    "references": [
-        "GUID:32209dec08272be4a8eb3d83c34aa1ac",
-        "GUID:75469ad4d38634e559750d17036d5f7c",
-        "GUID:2bafac87e7f4b9b418d9448d219b01ab"
-    ],
+    "name": "Core.CommandService",
+    "rootNamespace": "Core.CommandService",
+    "references": [],
     "includePlatforms": [],
     "excludePlatforms": [],
     "allowUnsafeCode": false,

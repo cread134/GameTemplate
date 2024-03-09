@@ -1,3 +1,4 @@
+using Core.PauseManagement;
 using Player.PlayerResources;
 using System.Collections;
 using System.Collections.Generic;
@@ -33,6 +34,8 @@ namespace Player.Interaction
         void UpdateLook()
         {
             if (!initialized || !cursorLocked) { return; }
+            if (PauseManager.IsPaused)
+                return;
             rotation.x = Mathf.Clamp(rotation.x - delta.y, minAngle, maxAngle);
             rotation.y += delta.x % 360;
             mouseLooker.localEulerAngles = new Vector3(rotation.x, 0);

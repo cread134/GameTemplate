@@ -66,6 +66,13 @@ namespace Player.Interaction
             }
         }
 
+        public void OnPause(InputAction.CallbackContext context)
+        {
+            if (context.performed)
+            {
+                OnPauseButton?.Invoke(this, EventArgs.Empty);
+            }
+        }
         #region interface entry points
 
         public EventHandler<Vector2> LookDelta { get; set; }
@@ -81,6 +88,7 @@ namespace Player.Interaction
 
         public EventHandler OnJumpDown { get; set; }
         public EventHandler OnJumpUp { get; set; }
+        public EventHandler OnPauseButton { get; set; }
         #endregion
     }
 }
