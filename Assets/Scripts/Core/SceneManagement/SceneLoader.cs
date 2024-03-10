@@ -44,20 +44,35 @@ namespace Core.SceneManagement
         {
             CursorManager.LockCursor = false;
             loadingHooks.Clear();
-            SceneManager.LoadScene(LOADING_SCENE_INDEX, LoadSceneMode.Additive);
+            var loadingScreenAsync = SceneManager.LoadSceneAsync(LOADING_SCENE_INDEX, LoadSceneMode.Additive);
+            while (!loadingScreenAsync.isDone)
+            {
+                yield return null;
+            }
 
             var currentScenesCount = SceneManager.sceneCount;
+            List<Coroutine> unloadSceneActions = new List<Coroutine>();
             for (int i = 0; i < currentScenesCount; i++)
             {
                 var scene = SceneManager.GetSceneAt(i);
                 if (scene.buildIndex != LOADING_SCENE_INDEX)
                 {
-                    yield return UnloadSceneAsync(scene.buildIndex);
+                    var action = SceneManager.UnloadSceneAsync(buildIndex);
+                    while (!action.isDone)
+                    {
+                        yield return null;
+                    }
+                    loggingService.Log($"Unloaded scene at buildIndex {buildIndex}");
                 }
             }
+            loggingService.Log($"Unloaded {currentScenesCount} scenes");
 
             //load new scene
-            yield return SceneManager.LoadSceneAsync(buildIndex, LoadSceneMode.Additive);
+            var asyncAction = SceneManager.LoadSceneAsync(buildIndex, LoadSceneMode.Additive);
+            while (!asyncAction.isDone)
+            {
+                yield return null;
+            }
             SceneManager.SetActiveScene(SceneManager.GetSceneByBuildIndex(buildIndex));
             PopulateHooks();
             sceneLoadedCallback?.Invoke();
@@ -69,12 +84,12 @@ namespace Core.SceneManagement
                 yield return new WaitUntil(hook.condition);
             }
             //finished
-            yield return UnloadSceneAsync(LOADING_SCENE_INDEX);
-        }
-
-        IEnumerator UnloadSceneAsync(int buildIndex)
-        {
-            yield return SceneManager.UnloadSceneAsync(buildIndex);
+            var loadingScreenAsyncAction = SceneManager.UnloadSceneAsync(LOADING_SCENE_INDEX);
+            while (!loadingScreenAsyncAction.isDone)
+            {
+                yield return null;
+            }
+            loggingService.Log($"Scene load finished at buildIndex {buildIndex}");
         }
 
         Queue<SceneLoadingHook> loadingHooks = new Queue<SceneLoadingHook>();

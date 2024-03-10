@@ -73,7 +73,10 @@ namespace Player.Movement
             if (!initialised)
                 return;
             UpdateMovement();
-            playerCameraAnimator.UpdateHeadBob(Velocity);
+            if (_isGrounded)
+            {
+                playerCameraAnimator.UpdateHeadBob(Velocity);
+            }
         }
 
         private void OnDestroy()
