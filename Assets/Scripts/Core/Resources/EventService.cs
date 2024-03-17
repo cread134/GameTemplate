@@ -9,6 +9,7 @@ namespace Core.Resources
 
         public void OnResourceCreating()
         {
+            DontDestroyOnLoad(gameObject);
             initialised = true;
         }
 

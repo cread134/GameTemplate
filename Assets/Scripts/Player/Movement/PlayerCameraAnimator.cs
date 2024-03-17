@@ -1,4 +1,5 @@
 using Core.Audio;
+using Core.PauseManagement;
 using Core.Resources;
 using Player.Interaction;
 using Player.PlayerResources;
@@ -120,6 +121,10 @@ namespace Player.Movement
         public void UpdateHeadBob(Vector3 velocity)
         {
             if(!initialised)
+            {
+                return;
+            }
+            if (PauseManager.IsPaused)
             {
                 return;
             }

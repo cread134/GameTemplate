@@ -33,7 +33,7 @@ namespace Player
 
         [Header("Dependencies")]
         [SerializeField] private PlayerController playerController;
-        [SerializeField] private DefaultPlayerResources playerResources; 
+        [SerializeField] private DefaultPlayerResources playerResources;
 
         private void Awake()
         {
