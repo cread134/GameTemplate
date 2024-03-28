@@ -1,3 +1,4 @@
+using Core.Application;
 using Core.Audio;
 using Core.Debugging;
 using Core.Interaction;
@@ -17,14 +18,25 @@ namespace Core.Resources
             ObjectFactory.RegisterService<IUiResources, UiResources>(ObjectFactory.ServiceType.Singleton);
             ObjectFactory.RegisterService<IAudioManager, AudioManager>(ObjectFactory.ServiceType.Monobehaviour);
             ObjectFactory.RegisterService<IVfxManager, VfxManager>(ObjectFactory.ServiceType.Monobehaviour);
-            ObjectFactory.RegisterService<IInteractionService, InteractionService>(ObjectFactory.ServiceType.Monobehaviour);   
-            ObjectFactory.RegisterService<IDebugController, DebugController>(ObjectFactory.ServiceType.Monobehaviour);
+            ObjectFactory.RegisterService<IInteractionService, InteractionService>(ObjectFactory.ServiceType.Monobehaviour);
+            ConfigureDebug();
             ObjectFactory.RegisterService<ISceneLoader, SceneLoader>(ObjectFactory.ServiceType.Monobehaviour);
+        }
+
+        static void ConfigureDebug()
+        {
+            if (AppSettings.IsDebugMode)
+            {
+                ObjectFactory.RegisterService<IDebugController, DebugController>(ObjectFactory.ServiceType.Monobehaviour);
+            } else
+            {
+                ObjectFactory.RegisterService<IDebugController, ReleaseDebugController>(ObjectFactory.ServiceType.Monobehaviour);
+            }
         }
 
         static void ConfigureLogging()
         {
-            if (Application.isEditor)
+            if (UnityEngine.Application.isEditor)
             {
                 ObjectFactory.RegisterService<ILoggingService, LoggingService>(serviceType: ObjectFactory.ServiceType.Singleton);
             }

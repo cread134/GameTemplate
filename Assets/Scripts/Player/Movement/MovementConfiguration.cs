@@ -31,6 +31,7 @@ namespace Player.Movement
         public float slopeFlatAngle = 15.0f;
         public float jumpHeight = 2f;
         public float jumpForwardForce = 1.2f;
+        public float jumpForwardMultiplier = 0.4f;
 
         [Header("Visuals")]
         public float jumpCurveDuration = 0.4f;

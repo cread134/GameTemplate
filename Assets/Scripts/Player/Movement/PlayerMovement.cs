@@ -260,7 +260,7 @@ namespace Player.Movement
             Vector3 characterVelocity = Velocity;
             float finalSpeed = Mathf.Sqrt(2 * -movementConfiguration.gravity * movementConfiguration.jumpHeight);
             characterVelocity.y = 0;
-            Vector3 forceToAdd = (Vector3.up * finalSpeed) + (characterVelocity + (transform.forward * movementConfiguration.jumpForwardForce));
+            Vector3 forceToAdd = (Vector3.up * finalSpeed) + ((characterVelocity * movementConfiguration.jumpForwardMultiplier) + (transform.forward * movementConfiguration.jumpForwardForce));
             if (_appliedVelocity.y < 0f)
             {
                 _appliedVelocity.y = 0;

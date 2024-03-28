@@ -1,6 +1,11 @@
-﻿namespace Core.Vfx
+﻿using System;
+using UnityEngine;
+
+namespace Core.Vfx
 {
-    public class GameEffect
+    [CreateAssetMenu]
+    public class GameEffect : ScriptableObject
     {
+        public GameObject effectPrefab;
     }
 }

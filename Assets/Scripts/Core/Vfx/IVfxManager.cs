@@ -1,5 +1,5 @@
 ﻿using Core.Resources;
-using UnityEngine
+using UnityEngine;
 
 namespace Core.Vfx
 {

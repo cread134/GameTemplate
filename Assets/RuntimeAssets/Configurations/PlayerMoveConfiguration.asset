@@ -21,7 +21,7 @@ MonoBehaviour:
   dragCoefficient: 0.01
   coefficientOfFriction: 0.1
   acceleration: 10
-  moveSpeed: 6
+  moveSpeed: 3
   slopeGravity: -3
   maxGroundedSlopeAngle: 45
   slopeCheckRadius: 0.01
@@ -29,6 +29,7 @@ MonoBehaviour:
   slopeFlatAngle: 15
   jumpHeight: 1
   jumpForwardForce: 0
+  jumpForwardMultiplier: 0.3
   jumpCurveDuration: 0.6
   jumpCurveMultiplier: 0.4
   jumpCurve_Z:
