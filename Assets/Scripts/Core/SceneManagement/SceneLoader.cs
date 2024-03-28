@@ -11,13 +11,12 @@ using UnityEngine.SceneManagement;
 
 namespace Core.SceneManagement
 {
-    internal class SceneLoader : MonoBehaviour, ISceneLoader
+    internal class SceneLoader : MonobehaviourResourceInstance, ISceneLoader
     {
         const int LOADING_SCENE_INDEX = 0;
         ILoggingService loggingService;
-        public void OnResourceCreating()
+        internal override void OnCreating()
         {
-            DontDestroyOnLoad(gameObject);
             loggingService = ObjectFactory.ResolveService<ILoggingService>();
         }
         public void LoadScene(GameScene registeredScene)

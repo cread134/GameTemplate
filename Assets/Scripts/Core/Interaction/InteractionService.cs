@@ -11,7 +11,7 @@ using UnityEngine.ResourceManagement.AsyncOperations;
 
 namespace Core.Interaction
 {
-    internal class InteractionService : MonoBehaviour, IInteractionService
+    internal class InteractionService : MonobehaviourResourceInstance, IInteractionService
     {
         private bool initialised;
         private Dictionary<string, InputAction> inputActions;
@@ -23,9 +23,8 @@ namespace Core.Interaction
         const string BASE_INTERACTION_PATH = "Assets/RuntimeAssets/Configurations/DefaultInteractionMappings.asset";
         const string INPUT_MODULE_PATH = "Assets/Prefabs/Management/InputModule.prefab";
 
-        public void OnResourceCreating()
+        internal override void OnCreating()
         {
-            DontDestroyOnLoad(gameObject);
             GenerateInputModule();
             this.loggingService = ObjectFactory.ResolveService<ILoggingService>();
             CreateInitialActions();

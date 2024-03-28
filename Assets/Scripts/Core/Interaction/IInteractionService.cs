@@ -4,7 +4,7 @@ using UnityEngine.InputSystem;
 
 namespace Core.Interaction
 {
-    public interface IInteractionService : IResourceInstance
+    public interface IInteractionService
     {
         public void SubscribeToInput(string inputName, Action callback);
         public void RegisterInputAction(string name, InteractionMapping inputAction);

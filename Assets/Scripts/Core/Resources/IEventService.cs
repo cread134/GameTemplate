@@ -2,7 +2,7 @@
 
 namespace Core.Resources
 {
-    public interface IEventService : IResourceInstance
+    public interface IEventService
     {
         public EventHandler OnLateUpdate { get; set; }
     }

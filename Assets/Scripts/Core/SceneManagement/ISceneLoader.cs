@@ -3,7 +3,7 @@ using System;
 
 namespace Core.SceneManagement
 {
-    public interface ISceneLoader : IResourceInstance
+    public interface ISceneLoader
     {
         void LoadScene(GameScene registeredScene);
         void RegisterLoadingHook(SceneLoadingHook loadingHook);

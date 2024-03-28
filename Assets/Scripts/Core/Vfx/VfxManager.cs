@@ -7,7 +7,7 @@ using UnityEngine;
 
 namespace Core.Vfx
 {
-    internal class VfxManager : MonoBehaviour, IVfxManager
+    internal class VfxManager : MonobehaviourResourceInstance, IVfxManager
     {
         const int MAX_EFFECTS = 10;
         const int MAX_EFFECT_POOLS = 10;
@@ -15,8 +15,8 @@ namespace Core.Vfx
         Dictionary<GameEffect, Queue<GameObject>> effectPools = new Dictionary<GameEffect, Queue<GameObject>>();
         Dictionary<GameEffect, int> poolUsage = new Dictionary<GameEffect, int>();
 
-        public void OnResourceCreating()
-        {         
+        internal override void OnCreating()
+        {
         }
         public void PlayEffect(GameEffect gameEffect, Vector3 position)
         {

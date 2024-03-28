@@ -13,7 +13,7 @@ using Core.Interaction;
 
 namespace Core.Debugging
 {
-    internal class DebugController : MonoBehaviour, IDebugController
+    internal class DebugController : MonobehaviourResourceInstance, IDebugController
     {
         const string VIEW_PATH = "Assets/UI/DebugUi/DebugInfoView.uxml";
 
@@ -27,7 +27,7 @@ namespace Core.Debugging
 
         private UIDocument document;
 
-        public void OnResourceCreating()
+        internal override void OnCreating()
         {
             _uiResources = ObjectFactory.ResolveService<IUiResources>();
             var eventService = ObjectFactory.ResolveService<IEventService>();
@@ -35,7 +35,6 @@ namespace Core.Debugging
             var interactionService = ObjectFactory.ResolveService<IInteractionService>();
             interactionService.SubscribeToInput("CloseDebugInfo", OnDisplayPressed);
 
-            DontDestroyOnLoad(gameObject);
             StartCoroutine(GenerateCanvas());
         }
 

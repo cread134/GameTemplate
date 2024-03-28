@@ -8,16 +8,15 @@ using UnityEngine.ResourceManagement.AsyncOperations;
 
 namespace Core.Audio
 {
-    internal class AudioManager : MonoBehaviour, IAudioManager
+    internal class AudioManager : MonobehaviourResourceInstance, IAudioManager
     {
         const int AUDIO_INSTANCE_COUNT = 20;
         bool initialised;
         
         ILoggingService loggingService;
         Queue<AudioInstance> m_AudioInstancePool;
-        public void OnResourceCreating()
+        internal override void OnCreating()
         {
-            DontDestroyOnLoad(gameObject);
             loggingService = ObjectFactory.ResolveService<ILoggingService>();
 
             GenerateAudioInstances();

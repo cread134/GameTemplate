@@ -3,13 +3,12 @@ using UnityEngine;
 
 namespace Core.Resources
 {
-    public class EventService : MonoBehaviour, IEventService
+    internal class EventService : MonobehaviourResourceInstance, IEventService
     {
         bool initialised;
 
-        public void OnResourceCreating()
+        internal override void OnCreating()
         {
-            DontDestroyOnLoad(gameObject);
             initialised = true;
         }
 
